@@ -1,28 +1,10 @@
-const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
+// metro.config.js
+const { getDefaultConfig } = require('@expo/metro-config');
 
-const defaultConfig = getDefaultConfig(__dirname);
-const {assetExts, sourceExts} = defaultConfig.resolver;
+const config = getDefaultConfig(__dirname);
 
-/**
- * Metro configuration
- * https://facebook.github.io/metro/docs/configuration
- *
- * @type {import('metro-config').MetroConfig}
- */
-const config = {
-  transformer: {
-    babelTransformerPath: require.resolve('react-native-svg-transformer'),
-  },
-  resolver: {
-    assetExts: [
-      ...assetExts.filter(ext => ext !== 'svg'),
-      'glb',
-      'gltf',
-      'png',
-      'jpg',
-    ],
-    sourceExts: [...sourceExts, 'svg', 'js', 'jsx', 'json', 'ts', 'tsx', 'cjs'],
-  },
-};
+// Hinzufügen der Unterstützung für .glb, .gltf und .svg-Dateien
+config.resolver.assetExts.push('glb', 'gltf', 'svg');
+config.transformer.babelTransformerPath = require.resolve('react-native-svg-transformer');
 
-module.exports = mergeConfig(defaultConfig, config);
+module.exports = config;
